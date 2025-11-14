@@ -3,7 +3,7 @@
 
 class ILauncher {
 public:
-  virtual ~ILauncher() = default;
-  virtual int Run() = 0;
-  virtual bool Configure(std::unique_ptr<IConfig> config) = 0;
+    virtual ~ILauncher() = default;
+    virtual int Run() = 0;
+    virtual bool Configure(std::unique_ptr<IConfig> config) = 0;
 };

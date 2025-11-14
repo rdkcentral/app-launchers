@@ -1,18 +1,20 @@
 #pragma once
 #include "ILauncher.h"
+#include "ILifeCycle.h"
 #include <atomic>
-#include <thread>
 
 class CobaltLauncher : public ILauncher {
 public:
-    CobaltLauncher() = default;
+    explicit CobaltLauncher(ILifeCycle* lifecycle);
     ~CobaltLauncher() override = default;
     int Run() override;
     bool Configure(std::unique_ptr<IConfig> config) override;
 
 private:
-    int Worker();
+    void Quit();
+
     std::unique_ptr<IConfig> m_config;
-    std::thread m_worker;
-    std::atomic_bool m_isRunning{ false };
+    ILifeCycle* m_lifecycle{ nullptr };
+
+    std::atomic_bool m_isRunning{ true };
 };

@@ -3,11 +3,19 @@
 
 #include <chrono>
 
+CobaltLauncher::CobaltLauncher(ILifeCycle* lifecycle)
+    : m_lifecycle(lifecycle)
+{
+    if (m_lifecycle) {
+        m_lifecycle->Register(ILifeCycle::QUIT, std::bind(&CobaltLauncher::Quit, this));
+    }
+}
+
 int CobaltLauncher::Run()
 {
     std::cout << "Cobalt starting...\n";
-    m_isRunning = true;
-    m_worker = std::thread(&CobaltLauncher::Worker, this);
+    while (m_isRunning) {
+    }
     return 1;
 }
 
@@ -18,11 +26,8 @@ bool CobaltLauncher::Configure(std::unique_ptr<IConfig> config)
     return m_config.get() != nullptr;
 }
 
-int CobaltLauncher::Worker()
+void CobaltLauncher::Quit()
 {
-    while (m_isRunning) {
-        std::cout << "RUNNING\n";
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
-    return 0;
+    m_isRunning = false;
+    std::cout << "QUIT\n";
 }
