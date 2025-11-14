@@ -11,8 +11,15 @@ public:
 
     virtual ~ILifeCycle() = default;
 
-    virtual void Register(StateChange state, const Callback& callback) = 0;
-    virtual void Unregister(StateChange state) = 0;
+    virtual void Register(StateChange state, const Callback& callback)
+    {
+        m_callbacks.insert({ state, callback });
+    }
+    virtual void Unregister(StateChange state)
+    {
+        m_callbacks.erase(state);
+    }
+
     virtual void Start() = 0;
     virtual void Stop() = 0;
 

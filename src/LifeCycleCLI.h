@@ -11,8 +11,6 @@ public:
     LifeCycleCLI() = default;
     ~LifeCycleCLI() override;
 
-    void Register(StateChange state, const Callback& callback) override;
-    void Unregister(StateChange state) override;
     void Start() override;
     void Stop() override;
 

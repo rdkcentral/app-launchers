@@ -6,14 +6,6 @@ LifeCycleCLI::~LifeCycleCLI()
     Stop();
 }
 
-void LifeCycleCLI::Register(StateChange state, const Callback& callback)
-{
-    m_callbacks.insert({ state, callback });
-}
-void LifeCycleCLI::Unregister(StateChange state)
-{
-    m_callbacks.erase(state);
-}
 void LifeCycleCLI::Start()
 {
     m_isRunning = true;
