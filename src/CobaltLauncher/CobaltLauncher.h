@@ -1,4 +1,5 @@
 #pragma once
+#include "CobaltConfig.h"
 #include "ILauncher.h"
 #include "ILifeCycle.h"
 #include <atomic>
@@ -8,12 +9,12 @@ public:
     explicit CobaltLauncher(ILifeCycle* lifecycle);
     ~CobaltLauncher() override = default;
     int Run() override;
-    bool Configure(std::unique_ptr<IConfig> config) override;
+    bool Configure(IConfig* config) override;
 
 private:
     void Quit();
 
-    std::unique_ptr<IConfig> m_config;
+    CobaltConfig m_config;
     ILifeCycle* m_lifecycle{ nullptr };
 
     std::atomic_bool m_isRunning{ true };

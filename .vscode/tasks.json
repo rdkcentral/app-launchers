@@ -21,7 +21,7 @@
         {
             "label": "Install dependencies",
             "type": "shell",
-            "command": "conan install ${workspaceFolder}/conan -of cmake-build-${input:buildType} --profile:build ${workspaceFolder}/conan/macos-m1-cmake-clang15-cpp20 --profile:host ${workspaceFolder}/conan/macos-m1-cmake-clang15-cpp20 --build=missing",
+            "command": "conan install ${workspaceFolder}/conan -of cmake-build-${input:buildType} --profile:build ${workspaceFolder}/conan/macos-m1-cmake-clang15-cpp11 --profile:host ${workspaceFolder}/conan/macos-m1-cmake-clang15-cpp11 --build=missing",
             "group": "build",
             "dependsOn": [
                 "Create build directory"

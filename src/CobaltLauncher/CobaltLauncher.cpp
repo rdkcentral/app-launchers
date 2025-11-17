@@ -1,8 +1,6 @@
 #include "CobaltLauncher.h"
 #include <iostream>
 
-#include <chrono>
-
 CobaltLauncher::CobaltLauncher(ILifeCycle* lifecycle)
     : m_lifecycle(lifecycle)
 {
@@ -14,16 +12,24 @@ CobaltLauncher::CobaltLauncher(ILifeCycle* lifecycle)
 int CobaltLauncher::Run()
 {
     std::cout << "Cobalt starting...\n";
+
+    auto result = m_config.GetUrl();
+    if (result.first) {
+        std::cerr << "Launchung with url: " << result.second << "\n";
+    } else {
+        std::cerr << "Launchung without url \n";
+    }
+
+    // simulate blocking call to SbRdkMain
     while (m_isRunning) {
     }
     return 1;
 }
 
-bool CobaltLauncher::Configure(std::unique_ptr<IConfig> config)
+bool CobaltLauncher::Configure(IConfig* config)
 {
     std::cout << "Cobalt configuring...\n";
-    m_config = std::move(config);
-    return m_config.get() != nullptr;
+    return m_config.Configure(config);
 }
 
 void CobaltLauncher::Quit()

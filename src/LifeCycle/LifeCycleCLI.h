@@ -1,7 +1,5 @@
 #pragma once
-#include "Interfaces/ILifeCycle.h"
-#include <functional>
-#include <stdint.h>
+#include "ILifeCycle.h"
 #include <thread>
 
 class LifeCycleCLI : public ILifeCycle {
