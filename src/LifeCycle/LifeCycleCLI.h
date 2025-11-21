@@ -1,6 +1,7 @@
 #pragma once
 #include "ILifeCycle.h"
 #include <thread>
+#include <atomic>
 
 class LifeCycleCLI : public ILifeCycle {
 public:
