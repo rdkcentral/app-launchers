@@ -2,8 +2,11 @@
 #include "rapidjson/document.h"
 #include <fstream>
 #include <memory>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
 #include <sstream>
 #include <utility>
+#include <vector>
 
 class JsonConfig::Impl {
 public:
@@ -34,10 +37,22 @@ public:
     std::string GetString(const std::string& key)
     {
         const rapidjson::Value* value = GetValueByKey(key);
-        if (!value || !value->IsString()) {
+        if (!value) {
             return "";
         }
-        return value->GetString();
+
+        if (value->IsString()) {
+            return value->GetString();
+        }
+
+        if (value->IsObject()) {
+            rapidjson::StringBuffer buffer;
+            rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+            value->Accept(writer);
+            return buffer.GetString();
+        }
+
+        return "";
     }
 
     double GetNumber(const std::string& key)
@@ -66,22 +81,6 @@ public:
     }
 
 private:
-    const rapidjson::Value* GetValueByKey(const std::string& key) const
-    {
-        const rapidjson::Value* current = &m_document;
-
-        auto keyParts = SplitKey(key);
-
-        for (const auto& keyPart : keyParts) {
-            if (!current->IsObject() || !current->HasMember(keyPart.c_str())) {
-                return nullptr;
-            }
-            current = &((*current)[keyPart.c_str()]);
-        }
-
-        return current;
-    }
-
     std::vector<std::string> SplitKey(const std::string& key) const
     {
         std::vector<std::string> parts;
@@ -96,6 +95,22 @@ private:
         parts.push_back(key.substr(start));
 
         return parts;
+    }
+
+    const rapidjson::Value* GetValueByKey(const std::string& key) const
+    {
+        const rapidjson::Value* current = &m_document;
+
+        auto keyParts = SplitKey(key);
+
+        for (const auto& keyPart : keyParts) {
+            if (!current->IsObject() || !current->HasMember(keyPart.c_str())) {
+                return nullptr;
+            }
+            current = &((*current)[keyPart.c_str()]);
+        }
+
+        return current;
     }
 
     std::string m_filename;
