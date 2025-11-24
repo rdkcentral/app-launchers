@@ -6,6 +6,9 @@
 
 class CobaltLauncher : public ILauncher {
 public:
+    static const char DEFAULT_CONTENT_DIR[];
+    static const std::string CLIENT_IDENTIFIER;
+
     explicit CobaltLauncher(ILifeCycle* lifecycle);
     ~CobaltLauncher() override = default;
     int Run() override;

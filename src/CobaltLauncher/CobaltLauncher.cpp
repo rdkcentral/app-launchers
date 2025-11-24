@@ -70,7 +70,23 @@ void SetEnvironment(const std::string& key, const std::string& value, bool force
 {
     ::setenv(key.c_str(), value.c_str(), forced);
 }
+bool GetEnvironment(const std::string& key, std::string& value)
+{
+    const char* envVal = std::getenv(key.c_str());
+    if (envVal != nullptr) {
+        value = envVal;
+        return true;
+    } else {
+        value.clear();
+        return false;
+    }
 }
+}
+
+const char CobaltLauncher::DEFAULT_CONTENT_DIR[] = "/usr/share/content/data:"
+                                                   "/media/apps/libcobalt/usr/share/content/data:"
+                                                   "/tmp/libcobalt/usr/share/content/data";
+const std::string CobaltLauncher::CLIENT_IDENTIFIER = "CobaltLauncher";
 
 CobaltLauncher::CobaltLauncher(ILifeCycle* lifecycle)
     : m_lifecycle(lifecycle)
@@ -111,11 +127,40 @@ bool CobaltLauncher::Configure(IConfig* config)
     if (!m_config.Configure(config)) {
         return false;
     }
+    // TODO:
+    // HOME - persistent path,
+    // COBALT_TEMP - volatile path,
+
+    auto clientIdentifier = m_config.GetClientIdentifier();
+    if (clientIdentifier.first) {
+        std::string value = CobaltLauncher::CLIENT_IDENTIFIER + "," + clientIdentifier.second;
+        SetEnvironment("CLIENT_IDENTIFIER", value);
+        SetEnvironment("WAYLAND_DISPLAY", clientIdentifier.second);
+    } else {
+        SetEnvironment("CLIENT_IDENTIFIER", CobaltLauncher::CLIENT_IDENTIFIER);
+    }
 
     auto language = m_config.GetLanguage();
     if (language.first) {
         SetEnvironment("LANG", language.second);
     }
+
+    auto contentDir = m_config.GetContentDir();
+    if (contentDir.first) {
+        SetEnvironment("COBALT_CONTENT_DIR", contentDir.second);
+    } else {
+        SetEnvironment("COBALT_CONTENT_DIR", CobaltLauncher::DEFAULT_CONTENT_DIR);
+    }
+
+    std::string envVal, gstDebug = "gstplayer:4,2";
+    if (GetEnvironment("GST_DEBUG", envVal) && !envVal.empty()) {
+        gstDebug = "," + envVal;
+    }
+    auto gstDebugConfig = m_config.GetGstDebug();
+    if (gstDebugConfig.first) {
+        gstDebug += "," + gstDebugConfig.second;
+    }
+    SetEnvironment("GST_DEBUG", gstDebug);
 
     auto essosContextDestroy = m_config.GetEssosContextDestroy();
     if (essosContextDestroy.first) {
@@ -141,6 +186,13 @@ bool CobaltLauncher::Configure(IConfig* config)
     if (fireboltEndpoint.first) {
         SetEnvironment("FIREBOLT_ENDPOINT", fireboltEndpoint.second);
     }
+
+    auto closurePolicy = m_config.GetClosurePolicy();
+    if (closurePolicy.first) {
+        SbRdkSetCobaltExitStrategy(closurePolicy.second.c_str());
+    }
+    // TODO:
+    // SbRdkSetConcealRequestHandler - request suspend
 
     return true;
 }
