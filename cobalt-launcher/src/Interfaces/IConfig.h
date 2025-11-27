@@ -19,6 +19,7 @@
 
 #pragma once
 #include <string>
+#include <utility>
 
 class IConfig {
 public:
@@ -27,7 +28,7 @@ public:
     virtual bool Contains(const std::string& key) const = 0;
 
     // WIP - no std::variant :(
-    virtual std::string GetString(const std::string& key) const = 0;
-    virtual double GetNumber(const std::string& key) const = 0;
-    virtual bool GetBoolean(const std::string& key) const = 0;
+    virtual std::pair<bool, std::string> GetString(const std::string& key) const = 0;
+    virtual std::pair<bool, double> GetNumber(const std::string& key) const = 0;
+    virtual std::pair<bool, bool> GetBoolean(const std::string& key) const = 0;
 };

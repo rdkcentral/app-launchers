@@ -38,22 +38,15 @@ public:
     std::pair<bool, std::string> GetUrl()
     {
         if (m_config) {
-            if (m_config->Contains("configuration.url")) {
-                return { true, m_config->GetString("configuration.url") };
-            }
-            return { false, "" };
+            m_config->GetString("configuration.url");
         }
 
         return { false, "" };
     }
-    // TODO: implement, reducing boilerplate
     std::pair<bool, std::string> GetClientIdentifier()
     {
         if (m_config) {
-            if (m_config->Contains("configuration.clientidentifier")) {
-                return { true, m_config->GetString("configuration.clientidentifier") };
-            }
-            return { false, "" };
+            return m_config->GetString("configuration.clientidentifier");
         }
 
         return { false, "" };
@@ -61,10 +54,7 @@ public:
     std::pair<bool, std::string> GetLanguage()
     {
         if (m_config) {
-            if (m_config->Contains("configuration.language")) {
-                return { true, m_config->GetString("configuration.language") };
-            }
-            return { false, "" };
+            return m_config->GetString("configuration.language");
         }
 
         return { false, "" };
@@ -72,10 +62,7 @@ public:
     std::pair<bool, std::string> GetContentDir()
     {
         if (m_config) {
-            if (m_config->Contains("configuration.contentdir")) {
-                return { true, m_config->GetString("configuration.contentdir") };
-            }
-            return { false, "" };
+            m_config->GetString("configuration.contentdir");
         }
 
         return { false, "" };
@@ -83,10 +70,7 @@ public:
     std::pair<bool, std::string> GetGstDebug()
     {
         if (m_config) {
-            if (m_config->Contains("configuration.gstdebug")) {
-                return { true, m_config->GetString("configuration.gstdebug") };
-            }
-            return { false, "" };
+            m_config->GetString("configuration.gstdebug");
         }
 
         return { false, "" };
@@ -94,10 +78,7 @@ public:
     std::pair<bool, std::string> GetEssosContextDestroy()
     {
         if (m_config) {
-            if (m_config->Contains("configuration.essoscontextdestroy")) {
-                return { true, m_config->GetString("configuration.essoscontextdestroy") };
-            }
-            return { false, "" };
+            m_config->GetString("configuration.essoscontextdestroy");
         }
 
         return { false, "" };
@@ -105,10 +86,7 @@ public:
     std::pair<bool, bool> GetPreloadEnabled()
     {
         if (m_config) {
-            if (m_config->Contains("configuration.preload")) {
-                return { true, m_config->GetBoolean("configuration.preload") };
-            }
-            return { false, false };
+            m_config->GetBoolean("configuration.preload");
         }
 
         return { false, false };
@@ -116,10 +94,7 @@ public:
     std::pair<bool, uint16_t> GetAutoSuspendDelay()
     {
         if (m_config) {
-            if (m_config->Contains("configuration.autosuspenddelay")) {
-                return { true, m_config->GetNumber("configuration.autosuspenddelay") };
-            }
-            return { false, 0 };
+            m_config->GetNumber("configuration.autosuspenddelay");
         }
 
         return { false, 0 };
@@ -127,10 +102,7 @@ public:
     std::pair<bool, std::string> GetClosurePolicy()
     {
         if (m_config) {
-            if (m_config->Contains("configuration.closurepolicy")) {
-                return { true, m_config->GetString("configuration.closurepolicy") };
-            }
-            return { false, "" };
+            m_config->GetString("configuration.closurepolicy");
         }
 
         return { false, "" };
@@ -138,36 +110,25 @@ public:
     std::pair<bool, std::string> GetFireboltEndpoint()
     {
         if (m_config) {
-            if (m_config->Contains("configuration.fireboltendpoint")) {
-                return { true, m_config->GetString("configuration.fireboltendpoint") };
-            }
-            return { false, "" };
+            return m_config->GetString("configuration.fireboltendpoint");
         }
 
         return { false, "" };
     }
 
-    // FIXME: Get all the fields as JSON string
     std::pair<bool, std::string> GetSystemProperties()
     {
         if (m_config) {
-            if (m_config->Contains("configuration.systemproperties")) {
-                return { true, m_config->GetString("configuration.systemproperties") };
-            }
-            return { false, "" };
+            m_config->GetString("configuration.systemproperties");
         }
 
         return { false, "" };
     }
 
-    // FIXME: Get all the fields as JSON string
     std::pair<bool, std::string> GetAdvertisingId()
     {
         if (m_config) {
-            if (m_config->Contains("configuration.advertisingid")) {
-                return { true, m_config->GetString("configuration.advertisingid") };
-            }
-            return { false, "" };
+            m_config->GetString("configuration.advertisingid");
         }
 
         return { false, "" };

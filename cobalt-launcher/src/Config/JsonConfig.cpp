@@ -15,7 +15,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 #include "JsonConfig.h"
 #include "rapidjson/document.h"
@@ -53,50 +53,50 @@ public:
         return GetValueByKey(key) != nullptr;
     }
 
-    std::string GetString(const std::string& key) const
+    std::pair<bool, std::string> GetString(const std::string& key) const
     {
         const rapidjson::Value* value = GetValueByKey(key);
         if (!value) {
-            return "";
+            return { false, "" };
         }
 
         if (value->IsString()) {
-            return value->GetString();
+            return { true, value->GetString() };
         }
 
         if (value->IsObject()) {
             rapidjson::StringBuffer buffer;
             rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
             value->Accept(writer);
-            return buffer.GetString();
+            return { true, buffer.GetString() };
         }
 
-        return "";
+        return { false, "" };
     }
 
-    double GetNumber(const std::string& key) const
+    std::pair<bool, double> GetNumber(const std::string& key) const
     {
         const rapidjson::Value* value = GetValueByKey(key);
         if (!value) {
-            return 0.0;
+            return { false, 0.0 };
         }
 
         if (value->IsDouble()) {
-            return value->GetDouble();
+            return { true, value->GetDouble() };
         }
         if (value->IsInt()) {
-            return static_cast<double>(value->GetInt());
+            return { true, static_cast<double>(value->GetInt()) };
         }
-        return 0.0;
+        return { false, 0.0 };
     }
 
-    bool GetBoolean(const std::string& key) const
+    std::pair<bool, bool> GetBoolean(const std::string& key) const
     {
         const rapidjson::Value* value = GetValueByKey(key);
         if (!value || !value->IsBool()) {
-            return false;
+            return { false, false };
         }
-        return value->GetBool();
+        return { true, value->GetBool() };
     }
 
 private:
@@ -151,15 +151,15 @@ bool JsonConfig::Contains(const std::string& key) const
 {
     return m_impl->Contains(key);
 }
-std::string JsonConfig::GetString(const std::string& key) const
+std::pair<bool, std::string> JsonConfig::GetString(const std::string& key) const
 {
     return m_impl->GetString(key);
 }
-double JsonConfig::GetNumber(const std::string& key) const
+std::pair<bool, double> JsonConfig::GetNumber(const std::string& key) const
 {
     return m_impl->GetNumber(key);
 }
-bool JsonConfig::GetBoolean(const std::string& key) const
+std::pair<bool, bool> JsonConfig::GetBoolean(const std::string& key) const
 {
     return m_impl->GetBoolean(key);
 }
