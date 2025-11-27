@@ -15,7 +15,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 #include "IConfig.h"
 #include "JsonConfig.h"
@@ -33,27 +33,24 @@ int main(int argc, char** argv)
         launcherType = std::string(argv[1]);
         std::transform(launcherType.begin(), launcherType.end(), launcherType.begin(), ::toupper);
     }
-    std::string configPath = "/tmp/config.json";
-
     std::unique_ptr<ILifeCycle> lifecycle(new LifeCycleCLI());
-
     auto launcher = LauncherFactory::Create(launcherType, lifecycle.get());
 
-    // WIP
+    std::string configPath = "/tmp/config.json";
     std::unique_ptr<IConfig> config(new JsonConfig(configPath));
-    config->Parse();
-
-    auto isConfigured = launcher->Configure(config.get());
-
-    lifecycle->Start();
 
     int result = -1;
-    if (isConfigured) {
+    if (launcher && config->Parse()) {
+        if (!launcher->Configure(config.get())) {
+            return result;
+        }
+
+        lifecycle->Start();
         result = launcher->Run();
+        lifecycle->Stop();
+
+        std::cout << "Launcher exited with: " << result << std::endl;
     }
 
-    lifecycle->Stop();
-    std::cout << "Launcher exited with: " << result << std::endl;
-
-    return 0;
+    return result;
 }
