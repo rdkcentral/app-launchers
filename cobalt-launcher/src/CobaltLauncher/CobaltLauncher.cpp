@@ -123,7 +123,7 @@ int CobaltLauncher::Run()
 
     auto url = m_config.GetUrl();
     if (url.first) {
-        std::cout << "Launchung with url: " << url.second << "\n";
+        std::cout << "Launching with url: " << url.second << "\n";
         argv.push_back(url.second.c_str());
     }
 
