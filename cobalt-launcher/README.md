@@ -5,7 +5,7 @@ This folder contains a launcher for the Cobalt application that simulates Thunde
 ## Dependencies
 
 - C++11,
-- CMake 3.2X,
+- CMake 3.22 or higher,
 - rapidjson.
 
 ## Build
