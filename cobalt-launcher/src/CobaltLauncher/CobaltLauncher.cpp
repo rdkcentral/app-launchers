@@ -15,7 +15,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 #include "CobaltLauncher.h"
 #include <iostream>
@@ -173,7 +173,7 @@ bool CobaltLauncher::Configure(IConfig* config)
 
     std::string envVal, gstDebug = "gstplayer:4,2";
     if (GetEnvironment("GST_DEBUG", envVal) && !envVal.empty()) {
-        gstDebug = "," + envVal;
+        gstDebug = envVal;
     }
     auto gstDebugConfig = m_config.GetGstDebug();
     if (gstDebugConfig.first) {
