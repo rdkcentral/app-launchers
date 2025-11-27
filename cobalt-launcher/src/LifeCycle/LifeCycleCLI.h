@@ -24,8 +24,6 @@
 
 class LifeCycleCLI : public ILifeCycle {
 public:
-    using CallbackMap = std::unordered_map<StateChange, Callback>;
-
     LifeCycleCLI() = default;
     ~LifeCycleCLI() override;
 

@@ -44,7 +44,10 @@ void LifeCycleCLI::Worker()
         std::cout << "Pass option\n";
         std::cin >> option;
         if (option == "quit") {
-            m_callbacks.at(QUIT)();
+            auto callback = m_callbacks.find(QUIT);
+            if (callback != m_callbacks.end() && callback->second) {
+                callback->second();
+            }
         }
     }
 }
