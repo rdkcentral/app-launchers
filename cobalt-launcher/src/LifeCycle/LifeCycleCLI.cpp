@@ -19,6 +19,7 @@
 
 #include "LifeCycleCLI.h"
 #include <iostream>
+#include <mutex>
 
 LifeCycleCLI::~LifeCycleCLI()
 {
@@ -44,6 +45,7 @@ void LifeCycleCLI::Worker()
         std::cout << "Pass option\n";
         std::cin >> option;
         if (option == "quit") {
+            std::lock_guard<std::mutex> guard(m_callbacksMutex);
             auto callback = m_callbacks.find(QUIT);
             if (callback != m_callbacks.end() && callback->second) {
                 callback->second();

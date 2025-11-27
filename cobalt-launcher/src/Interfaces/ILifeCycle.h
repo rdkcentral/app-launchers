@@ -15,12 +15,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 #pragma once
 #include <functional>
 #include <stdint.h>
 #include <unordered_map>
+#include <mutex>
 
 class ILifeCycle {
 
@@ -33,10 +34,12 @@ public:
 
     virtual void Register(StateChange state, const Callback& callback)
     {
+        std::lock_guard<std::mutex> guard(m_callbacksMutex);
         m_callbacks.insert({ state, callback });
     }
     virtual void Unregister(StateChange state)
     {
+        std::lock_guard<std::mutex> guard(m_callbacksMutex);
         m_callbacks.erase(state);
     }
 
@@ -44,5 +47,6 @@ public:
     virtual void Stop() = 0;
 
 protected:
+    std::mutex m_callbacksMutex;
     CallbackMap m_callbacks;
 };
