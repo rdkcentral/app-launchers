@@ -21,4 +21,4 @@ This project has Conan and VS Code tasks defined for easy building. You can use:
 
 ### Yocto
 
-Since this is regular CMake project yocto recipe can be also created and used.
+Since this is a regular CMake project yocto recipe can be also created and used.
