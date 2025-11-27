@@ -30,9 +30,9 @@ public:
     bool Parse() override;
     bool Contains(const std::string& key) const override;
 
-    std::string GetString(const std::string& key) override;
-    double GetNumber(const std::string& key) override;
-    bool GetBoolean(const std::string& key) override;
+    std::string GetString(const std::string& key) const override;
+    double GetNumber(const std::string& key) const override;
+    bool GetBoolean(const std::string& key) const override;
 
 private:
     class Impl;

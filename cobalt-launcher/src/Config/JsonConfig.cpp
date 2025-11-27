@@ -53,7 +53,7 @@ public:
         return GetValueByKey(key) != nullptr;
     }
 
-    std::string GetString(const std::string& key)
+    std::string GetString(const std::string& key) const
     {
         const rapidjson::Value* value = GetValueByKey(key);
         if (!value) {
@@ -74,7 +74,7 @@ public:
         return "";
     }
 
-    double GetNumber(const std::string& key)
+    double GetNumber(const std::string& key) const
     {
         const rapidjson::Value* value = GetValueByKey(key);
         if (!value) {
@@ -90,7 +90,7 @@ public:
         return 0.0;
     }
 
-    bool GetBoolean(const std::string& key)
+    bool GetBoolean(const std::string& key) const
     {
         const rapidjson::Value* value = GetValueByKey(key);
         if (!value || !value->IsBool()) {
@@ -151,15 +151,15 @@ bool JsonConfig::Contains(const std::string& key) const
 {
     return m_impl->Contains(key);
 }
-std::string JsonConfig::GetString(const std::string& key)
+std::string JsonConfig::GetString(const std::string& key) const
 {
     return m_impl->GetString(key);
 }
-double JsonConfig::GetNumber(const std::string& key)
+double JsonConfig::GetNumber(const std::string& key) const
 {
     return m_impl->GetNumber(key);
 }
-bool JsonConfig::GetBoolean(const std::string& key)
+bool JsonConfig::GetBoolean(const std::string& key) const
 {
     return m_impl->GetBoolean(key);
 }

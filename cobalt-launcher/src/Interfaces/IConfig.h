@@ -15,7 +15,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 #pragma once
 #include <string>
@@ -27,7 +27,7 @@ public:
     virtual bool Contains(const std::string& key) const = 0;
 
     // WIP - no std::variant :(
-    virtual std::string GetString(const std::string& key) = 0;
-    virtual double GetNumber(const std::string& key) = 0;
-    virtual bool GetBoolean(const std::string& key) = 0;
+    virtual std::string GetString(const std::string& key) const = 0;
+    virtual double GetNumber(const std::string& key) const = 0;
+    virtual bool GetBoolean(const std::string& key) const = 0;
 };
