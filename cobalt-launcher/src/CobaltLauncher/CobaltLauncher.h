@@ -40,4 +40,5 @@ private:
     ILifeCycle* m_lifecycle{ nullptr };
 
     std::atomic_bool m_isRunning{ true };
+    std::string m_url;
 };

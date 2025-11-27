@@ -123,8 +123,9 @@ int CobaltLauncher::Run()
 
     auto url = m_config.GetUrl();
     if (url.first) {
-        std::cout << "Launching with url: " << url.second << "\n";
-        argv.push_back(url.second.c_str());
+        m_url = url.second;
+        std::cout << "Launching with url: " << m_url << "\n";
+        argv.push_back(m_url.c_str());
     }
 
     auto preload = m_config.GetPreloadEnabled();
