@@ -31,7 +31,7 @@
             "label": "Configure project",
             "type": "shell",
             //"command": "cd cmake-build-${input:buildType} && source conanbuild.sh && cmake .. -B cmake-build-${input:buildType} -DCMAKE_BUILD_TYPE=${input:buildType} --preset conan-default",
-            "command": "source cmake-build-${input:buildType}/conanbuild.sh && cmake -S ${workspaceFolder} -B cmake-build-${input:buildType} -DCMAKE_BUILD_TYPE=${input:buildType} -G \"Unix Makefiles\" -DCMAKE_TOOLCHAIN_FILE=cmake-build-${input:buildType}/conan_toolchain.cmake -DMOCK_SB=ON",
+            "command": "source cmake-build-${input:buildType}/conanbuild.sh && cmake -S ${workspaceFolder} -B cmake-build-${input:buildType} -DCMAKE_BUILD_TYPE=${input:buildType} -G \"Unix Makefiles\" -DCMAKE_TOOLCHAIN_FILE=cmake-build-${input:buildType}/conan_toolchain.cmake -DMOCK_SB=ON -DMOCK_LIFECYCLE=ON",
             "group": "build",
             "dependsOn": [
                 "Install dependencies"

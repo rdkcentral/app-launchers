@@ -20,10 +20,13 @@
 #include "IConfig.h"
 #include "JsonConfig.h"
 #include "LauncherFactory.h"
-#include "LifeCycleCLI.h"
 #include <algorithm>
 #include <iostream>
 #include <string>
+
+#ifdef MOCK_LIFECYCLE
+#include "LifeCycleCLI.h"
+#endif
 
 int main(int argc, char** argv)
 {
@@ -33,7 +36,12 @@ int main(int argc, char** argv)
         launcherType = std::string(argv[1]);
         std::transform(launcherType.begin(), launcherType.end(), launcherType.begin(), ::toupper);
     }
+#ifdef MOCK_LIFECYCLE
     std::unique_ptr<ILifeCycle> lifecycle(new LifeCycleCLI());
+    std::cout << "MOCK IS IN\n";
+#else
+    std::unique_ptr<ILifeCycle> lifecycle(nullptr);
+#endif
     auto launcher = LauncherFactory::Create(launcherType, lifecycle.get());
 
     std::string configPath = "/tmp/config.json";
@@ -44,10 +52,11 @@ int main(int argc, char** argv)
         if (!launcher->Configure(config.get())) {
             return result;
         }
-
+#ifdef MOCK_LIFECYCLE
         lifecycle->Start();
+#endif
+
         result = launcher->Run();
-        lifecycle->Stop();
 
         std::cout << "Launcher exited with: " << result << std::endl;
     }
