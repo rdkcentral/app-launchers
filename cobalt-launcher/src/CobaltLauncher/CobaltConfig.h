@@ -38,7 +38,7 @@ public:
     std::pair<bool, std::string> GetUrl()
     {
         if (m_config) {
-            m_config->GetString("configuration.url");
+            return m_config->GetString("configuration.url");
         }
 
         return { false, "" };
@@ -62,7 +62,7 @@ public:
     std::pair<bool, std::string> GetContentDir()
     {
         if (m_config) {
-            m_config->GetString("configuration.contentdir");
+            return m_config->GetString("configuration.contentdir");
         }
 
         return { false, "" };
@@ -70,7 +70,7 @@ public:
     std::pair<bool, std::string> GetGstDebug()
     {
         if (m_config) {
-            m_config->GetString("configuration.gstdebug");
+            return m_config->GetString("configuration.gstdebug");
         }
 
         return { false, "" };
@@ -78,7 +78,7 @@ public:
     std::pair<bool, std::string> GetEssosContextDestroy()
     {
         if (m_config) {
-            m_config->GetString("configuration.essoscontextdestroy");
+            return m_config->GetString("configuration.essoscontextdestroy");
         }
 
         return { false, "" };
@@ -86,7 +86,7 @@ public:
     std::pair<bool, bool> GetPreloadEnabled()
     {
         if (m_config) {
-            m_config->GetBoolean("configuration.preload");
+            return m_config->GetBoolean("configuration.preload");
         }
 
         return { false, false };
@@ -94,7 +94,7 @@ public:
     std::pair<bool, uint16_t> GetAutoSuspendDelay()
     {
         if (m_config) {
-            m_config->GetNumber("configuration.autosuspenddelay");
+            return m_config->GetNumber("configuration.autosuspenddelay");
         }
 
         return { false, 0 };
@@ -102,7 +102,7 @@ public:
     std::pair<bool, std::string> GetClosurePolicy()
     {
         if (m_config) {
-            m_config->GetString("configuration.closurepolicy");
+            return m_config->GetString("configuration.closurepolicy");
         }
 
         return { false, "" };
@@ -119,7 +119,7 @@ public:
     std::pair<bool, std::string> GetSystemProperties()
     {
         if (m_config) {
-            m_config->GetString("configuration.systemproperties");
+            return m_config->GetString("configuration.systemproperties");
         }
 
         return { false, "" };
@@ -128,7 +128,7 @@ public:
     std::pair<bool, std::string> GetAdvertisingId()
     {
         if (m_config) {
-            m_config->GetString("configuration.advertisingid");
+            return m_config->GetString("configuration.advertisingid");
         }
 
         return { false, "" };
