@@ -87,6 +87,15 @@ public:
         if (value->IsInt()) {
             return { true, static_cast<double>(value->GetInt()) };
         }
+        if (value->IsUint()) {
+            return { true, static_cast<double>(value->GetUint()) };
+        }
+        if (value->IsInt64()) {
+            return { true, static_cast<double>(value->GetInt64()) };
+        }
+        if (value->IsUint64()) {
+            return { true, static_cast<double>(value->GetUint64()) };
+        }
         return { false, 0.0 };
     }
 
