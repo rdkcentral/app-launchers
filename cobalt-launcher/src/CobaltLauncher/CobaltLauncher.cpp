@@ -27,6 +27,7 @@ extern "C" {
 
 int StarboardMain(int argc, char** argv)
 {
+    while(true) {}
     return 0;
 }
 void SbRdkHandleDeepLink(const char* link)
@@ -134,8 +135,12 @@ int CobaltLauncher::Run()
     }
 
     int result = -1;
-    while (m_isRunning) {
+    if (m_isRunning) {
         result = StarboardMain(argv.size(), const_cast<char**>(argv.data()));
+    }
+    if (m_isRunning) {
+        m_isRunning = false;
+        // TODO: request state change to exit, initiated by StarboardMain itself
     }
     return result;
 }
