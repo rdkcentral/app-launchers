@@ -15,7 +15,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 #include "LifeCycleCLI.h"
 #include <iostream>
@@ -26,11 +26,18 @@ LifeCycleCLI::~LifeCycleCLI()
     Stop();
 }
 
+/**
+ * @brief MOCK
+ */
 void LifeCycleCLI::Start()
 {
     m_isRunning = true;
     m_worker = std::thread(&LifeCycleCLI::Worker, this);
 }
+
+/**
+ * @brief MOCK
+ */
 void LifeCycleCLI::Stop()
 {
     m_isRunning = false;
@@ -38,6 +45,9 @@ void LifeCycleCLI::Stop()
         m_worker.join();
     }
 }
+/**
+ * @brief MOCK
+ */
 void LifeCycleCLI::Worker()
 {
     std::string option;
