@@ -38,28 +38,34 @@ int main(int argc, char** argv)
     }
 #ifdef MOCK_LIFECYCLE
     std::unique_ptr<ILifeCycle> lifecycle(new LifeCycleCLI());
-    std::cout << "MOCK IS IN\n";
 #else
     std::unique_ptr<ILifeCycle> lifecycle(nullptr);
 #endif
+
+    int result = -1;
     auto launcher = LauncherFactory::Create(launcherType, lifecycle.get());
+    if (!launcher) {
+        std::cerr << "Launcher for: " << launcherType << " not found.\n";
+        return result;
+    }
 
     std::string configPath = "/tmp/config.json";
     std::unique_ptr<IConfig> config(new JsonConfig(configPath));
-
-    int result = -1;
-    if (launcher && config->Parse()) {
-        if (!launcher->Configure(config.get())) {
-            return result;
-        }
-#ifdef MOCK_LIFECYCLE
-        lifecycle->Start();
-#endif
-
-        result = launcher->Run();
-
-        std::cout << "Launcher exited with: " << result << std::endl;
+    if (!config->Parse()) {
+        std::cerr << "Unable to parse configuration from " << configPath << "\n";
+        return result;
     }
+
+    if (!launcher->Configure(config.get())) {
+        std::cerr << "Unable to configure launcher with given configuration.\n";
+        return result;
+    }
+
+#ifdef MOCK_LIFECYCLE
+    lifecycle->Start();
+#endif
+    result = launcher->Run();
+    std::cout << "Launcher exited with: " << result << std::endl;
 
     return result;
 }
