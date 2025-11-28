@@ -49,7 +49,7 @@ int main(int argc, char** argv)
         return result;
     }
 
-    std::string configPath = "/tmp/config.json";
+    std::string configPath = "/etc/launcher_config.json";
     std::unique_ptr<IConfig> config(new JsonConfig(configPath));
     if (!config->Parse()) {
         std::cerr << "Unable to parse configuration from " << configPath << "\n";
