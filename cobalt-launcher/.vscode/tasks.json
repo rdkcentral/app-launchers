@@ -1,0 +1,71 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Clear project",
+            "type": "shell",
+            "command": "rm -rf cmake-build-debug && rm -rf cmake-build-release",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+        },
+        {
+            "label": "Create build directory",
+            "type": "shell",
+            "command": "mkdir -p cmake-build-${input:buildType}",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        },
+        {
+            "label": "Install dependencies",
+            "type": "shell",
+            "command": "conan install ${workspaceFolder}/conan -of cmake-build-${input:buildType} --profile:build ${workspaceFolder}/conan/macos-m1-cmake-clang15-cpp11 --profile:host ${workspaceFolder}/conan/macos-m1-cmake-clang15-cpp11 --build=missing",
+            "group": "build",
+            "dependsOn": [
+                "Create build directory"
+            ]
+        },
+        {
+            "label": "Configure project",
+            "type": "shell",
+            //"command": "cd cmake-build-${input:buildType} && source conanbuild.sh && cmake .. -B cmake-build-${input:buildType} -DCMAKE_BUILD_TYPE=${input:buildType} --preset conan-default",
+            "command": "source cmake-build-${input:buildType}/conanbuild.sh && cmake -S ${workspaceFolder} -B cmake-build-${input:buildType} -DCMAKE_BUILD_TYPE=${input:buildType} -G \"Unix Makefiles\" -DCMAKE_TOOLCHAIN_FILE=cmake-build-${input:buildType}/conan_toolchain.cmake -DMOCK_SB=ON -DMOCK_LIFECYCLE=ON",
+            "group": "build",
+            "dependsOn": [
+                "Install dependencies"
+            ]
+        },
+        {
+            "label": "Build project",
+            "type": "shell",
+            "command": "cmake --build cmake-build-${input:buildType} && ln -sf cmake-build-${input:buildType}/compile_commands.json ${workspaceFolder}/compile_commands.json",
+            "group": "build",
+            "dependsOn": [
+                "Configure project"
+            ],
+            "problemMatcher": "$gcc",
+        },
+        {
+            "label": "Run program",
+            "type": "shell",
+            "command": "source cmake-build-${input:buildType}/conanrun.sh && ./cmake-build-${input:buildType}/src/launcher",
+            "group": "test",
+            "dependsOn": [
+                "Build project"
+            ]
+        }
+    ],
+    "inputs": [
+        {
+            "id": "buildType",
+            "type": "pickString",
+            "description": "Choose the build type",
+            "options": [
+                "Debug",
+                "Release"
+            ]
+        }
+    ]
+}

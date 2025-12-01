@@ -1,2 +1,3 @@
 # app-launchers
-This repository is used to maintain application launchers for RDK-E
+
+This repository contains open-source app launchers for various applications used by RDKM.
